@@ -2,7 +2,9 @@ from state import state
 import wpilib
 
 
-def read_input():
+def read_all_controller_inputs():
+
+	#Chasis Inputs
 
 	controller = wpilib.Joystick(0)
 
@@ -18,6 +20,11 @@ def read_input():
 
 	button_x = controller.getRawButton(1)
 	state["button_x_active"] = button_x
+
+	#Lift_inputs
+
+	button_y = controller.getRawButton(2)
+	state["activating_lift"] = button_y
 
 
 
