@@ -6,16 +6,20 @@ def read_all_controller_inputs():
 
 	#Chasis Inputs
 
+
 	controller = wpilib.Joystick(0)
 
 
-	x = controller.getX()
-	state["mov_x"] = x
+	xr = controller.getThrottle()
+	state["mov_xr"] = xr
+
+	xl = controller.getZ()
+	state["mov_xl"] = xl
 
 	y = controller.getY()
 	state["mov_y"] = y
 
-	z = controller.getZ()
+	z = controller.getX()
 	state["mov_z"] = z
 
 	button_x = controller.getRawButton(1)

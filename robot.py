@@ -1,4 +1,3 @@
-
 import wpilib
 from wpilib.drive import MecanumDrive
 from state import state
@@ -39,7 +38,11 @@ class MyRobot(wpilib.TimedRobot):
 			self.frontRightMotor,
 			self.rearRightMotor)
 										
-	def teleopPeriodic(self):   
+	def teleopPeriodic(self):  
+
+		def getThrottle(self):
+			return self._getRawAxis(0) 
+
 
 		#se leen constantemente los botones y joysticks
 
@@ -48,27 +51,23 @@ class MyRobot(wpilib.TimedRobot):
 		#código para el funcionamiento del movimiento
 		# de las mecanum a través del control de xbox
 
-		x = state["mov_x"]
-		y = state["mov_y"]
-		z = state["mov_z"]
+		x = state["mov_x"] 
+		y = state["mov_y"] * 0.7
+		z = state["mov_z"] * 0.7
+
+		if state["mov_xr"] != 0 and state["mov_xl"] == 0:
+			x = state["mov_xr"] * 0.7
+
+		if state["mov_xl"] != 0 and state["mov_xr"] == 0:
+			x = state["mov_xl"] * 0.7
+
 
 		powerX = 0 if x < 0.05 and x > -0.05 else x
 		powerY = 0 if y < 0.05 and y > -0.05 else y
 		powerZ = 0 if z < 0.05 and z > -0.05 else z
-	
 
-		if state["button_x_active"]:
-			if self.sensor_principal.get():
-				self.drive.driveCartesian(0, 0, 0, 0)
-			elif self.sensor_izquierdo.get():
-				self.drive.driveCartesian(0.4, 0, 0, 0)
-			elif self.sensor_derecho.get():
-				self.drive.driveCartesian(-0.4, 0 ,0, 0)
-			else:
-				self.drive.driveCartesian(0, -0.5, 0, 0)
 
-		else:
-			self.drive.driveCartesian(powerX, powerY, powerZ, 0)
+		self.drive.driveCartesian(powerX, powerY, powerZ, 0)
 			
 		#código para el funcionamiento del elevador y la garra
         
